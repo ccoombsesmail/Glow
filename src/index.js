@@ -2,23 +2,27 @@ import * as THREE from 'three';
 // var THREE = require('three')
 
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
-
+import {createSkyBox} from './components/skybox'
+import {createSkyBox2} from './components/skybox2'
 
 // function init() {
+
     var scene = new THREE.Scene();
 
+    // createSkyBox(scene)
+    var cube = createSkyBox2(scene)
+
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    camera.position.z = 5;
+    // camera.position.z = 5;
 
-    
-  
 
-   
+
     var renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setClearColor("#e5e5e5");
+    // renderer.setClearColor("#FFFFFF");
     renderer.setSize(window.innerWidth, window.innerHeight);
-
     document.body.appendChild(renderer.domElement);
+
+
 
     window.addEventListener('resize', () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -30,7 +34,7 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
 
-    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var geometry = new THREE.SphereGeometry(.1);
     var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
     //var mesh = new THREE.Mesh(geometry, material);
 
@@ -40,7 +44,7 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
     scene.add(player);
     camera.up.set(0, 0, 1)
     player.add(camera);
-    camera.position.set(0, 5, 10);
+    camera.position.set(0, 0, 10);
 
     var controls = new FirstPersonControls(player);
 
@@ -49,16 +53,21 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
     controls.noFly = true;
     controls.lookVertical = true;
     controls.mouseDragOn = true;
-    // meshX = -10;
+    // controls.minDistance = 500;
+    // controls.maxDistance = 1500;
+    let flys = []
     for (var i = 0; i < 15; i++) {
         var mesh = new THREE.Mesh(geometry, material);
         mesh.position.x = (Math.random() - 0.5) * 10;
         mesh.position.y = (Math.random() - 0.5) * 10;
         mesh.position.z = (Math.random() - 0.5) * 10;
         scene.add(mesh);
-        // meshX += 1;
+        flys.push(mesh)
     }
 
+    var light3 = new THREE.PointLight(0x008080, 100, 0)
+    light3.position.set(0,0,0);
+    scene.add(light3)
 
     var light = new THREE.PointLight(0xFFFFFF, 1, 1000)
     light.position.set(0, 0, 0);
@@ -71,16 +80,26 @@ import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonCont
 
 // }
 
-
+var moveSpeed = .1;
 var render = function () {
     requestAnimationFrame(render);
     controls.update(.01);
     // var player = scene.getObjectByName("player");
     // camera.lookAt(player.position)
-    // let children = scene.children
-    // for (i=0; i < children.length;i++) {
-    //     children[i].position.x += .01
-    // }
+    cube.position.copy(camera.position);
+
+    let children = scene.children
+    for (i=0; i < flys.length;i++) {
+        if (flys[i] !== scene.getObjectByName("player") ) {
+            var direction = new THREE.Vector3();
+            flys[i].getWorldDirection(direction);
+            flys[i].position.add(direction.multiplyScalar(moveSpeed));
+            // children[i].rotation.set = (Math.random() * 360 * Math.PI / 180, Math.random() * 360 * Math.PI / 180, Math.random() * 360 * Math.PI / 180)
+            flys[i].rotation.y += (Math.random() * 360 * Math.PI / 180)/100
+            
+            // children[i].translateZ(.01)
+        }
+    }
     renderer.render(scene, camera);
 }
 
@@ -92,13 +111,13 @@ function onMouseMove(event) {
 
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(scene.children, true);
-    for (let i = 0; i < intersects.length; i++) {
-        if (intersects[i]) {
-            intersects[i].object.material.color.set(0xff0000)
-        }
+    // var intersects = raycaster.intersectObjects(scene.children, true);
+    // for (let i = 0; i < intersects.length; i++) {
+    //     if (intersects[i]) {
+    //         intersects[i].object.material.color.set(0xff0000)
+    //     }
         // intersects[i].object.material.emissive.setHex(0xff0000)
-    }
+    // }
 
 
 }
@@ -160,6 +179,6 @@ function move(e) {
 }
 
 window.addEventListener('keydown', move)
-window.addEventListener('mousemove', onMouseMove)
+// window.addEventListener('mousemove', onMouseMove)
 render();
 // init()
