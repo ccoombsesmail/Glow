@@ -37,10 +37,10 @@ export class FireFlies {
     checkCollision(player) {
 
         for (let i = 0; i < this.flies.length; i++) {
-            if (Utils.distance(this.flies[i], player) < 5) {
+            if (Utils.distance(this.flies[i], player) < 3) {
+                this.scene.remove(this.flies[i])
                 this.flies.splice(i,1)
             }
-            console.log(this.flies)
         }
 
     }
