@@ -19,28 +19,28 @@
 
 			}
 
-		</script>
+</script>
 
-        <script type="x-shader/x-fragment" id="fragmentshader">
+<script type="x-shader/x-fragment" id="fragmentshader">
 
-			uniform sampler2D baseTexture;
-			uniform sampler2D bloomTexture;
+    uniform sampler2D baseTexture;
+    uniform sampler2D bloomTexture;
 
-			varying vec2 vUv;
+    varying vec2 vUv;
 
-			vec4 getTexture( sampler2D texelToLinearTexture ) {
+    vec4 getTexture( sampler2D texelToLinearTexture ) {
 
-				return mapTexelToLinear( texture2D( texelToLinearTexture , vUv ) );
+        return mapTexelToLinear( texture2D( texelToLinearTexture , vUv ) );
 
-			}
+    }
 
-			void main() {
+    void main() {
 
-				gl_FragColor = ( getTexture( baseTexture ) + vec4( 1.0 ) * getTexture( bloomTexture ) );
+        gl_FragColor = ( getTexture( baseTexture ) + vec4( 1.0 ) * getTexture( bloomTexture ) );
 
-			}
+    }
 
-		</script>
+</script>
 
         <script type="application/javascript" src = "public/bundle.js"></script>
         <!-- <script src="./index.js"></script> -->
