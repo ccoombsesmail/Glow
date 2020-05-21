@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-// var THREE = require('three')
 
 import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
@@ -27,7 +26,7 @@ import {initSky} from './components/sky'
     initSky(scene)
 
     var renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setClearColor("#001111");
+    // renderer.setClearColor("#001111");
     // renderer.setClearColor(scene.fog.color);
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = Math.pow(1, 4.0)
@@ -41,6 +40,9 @@ import {initSky} from './components/sky'
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     })
+
+    var darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
+    var materials = {};
 
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
@@ -84,14 +86,14 @@ import {initSky} from './components/sky'
     var renderScene = new RenderPass(scene, camera);
     var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
-    bloomPass.strength = 1.5;
+    bloomPass.strength = 3.5;
     bloomPass.radius = 0;
 
 
     var bloomComposer = new EffectComposer(renderer);
     bloomComposer.renderToScreen = false;
     bloomComposer.addPass(renderScene);
-// composer.addPass(bloomPass);
+    bloomComposer.addPass(bloomPass);
 
     var finalPass = new ShaderPass(
         new THREE.ShaderMaterial({
@@ -116,16 +118,9 @@ var render = function () {
     controls.update(.01);
 
     flies.moveFlies()
-    // var player = scene.getObjectByName("player");
-    // camera.lookAt(player.position)
-    // cube.position.copy(camera.position);
-
+    flies.checkCollision(player)
 
  
-    // mistMeshes.forEach(mist => {
-    //     mist.rotation.z -= 0.002;
-    // });
-
     // composer.render();
 
     // render scene with bloom
@@ -193,8 +188,14 @@ function onMouseMove(event) {
 
 }
 
+function onSpaceDown(event) {
+    if (event.keyCode === 32) {
+        bloomPass.strength += .03
+    }
 
+}
 
 // window.addEventListener('mousemove', onMouseMove)
+ window.addEventListener('keydown', onSpaceDown)
 render();
 // init()

@@ -1,18 +1,20 @@
 import * as THREE from 'three';
+import * as Utils from '../utils'
 
 export class FireFlies {
 
     constructor(scene) {
         let geometry = new THREE.SphereGeometry(.1);
-        let material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
+        let material = new THREE.MeshLambertMaterial({ color: 0xE74E0D });
         this.flies = []
         this.scene = scene
-        this.moveSpeed = .01
+        this.moveSpeed = .02
         for (let i = 0; i < 15; i++) {
             let mesh = new THREE.Mesh(geometry, material);
             mesh.position.x = (Math.random() - 0.5) * 10;
             mesh.position.y = (Math.random() - 0.5) * 10;
             mesh.position.z = (Math.random() - 0.5) * 10;
+            mesh.layers.enable(1)
             this.scene.add(mesh);
             this.flies.push(mesh)
         }
@@ -28,6 +30,17 @@ export class FireFlies {
             this.flies[i].rotation.y += (Math.random() * 360 * Math.PI / 180) / 100
             this.flies[i].rotation.z += (Math.random() * 360 * Math.PI / 180) / 100
             this.flies[i].rotation.x += (Math.random() * 360 * Math.PI / 180) / 100
+        }
+
+    }
+
+    checkCollision(player) {
+
+        for (let i = 0; i < this.flies.length; i++) {
+            if (Utils.distance(this.flies[i], player) < 5) {
+                this.flies.splice(i,1)
+            }
+            console.log(this.flies)
         }
 
     }
