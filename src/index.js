@@ -34,12 +34,43 @@ loader.setCrossOrigin('anonymous');
 
 loader.load(
     // resource URL
-    "tree2/scene.gltf",
+    "../tree2/scene.gltf",
     function (gltf) {
-        // Add the loaded object to the scene
-        scene.add(gltf.scene);
+        let trees1 = gltf.scene
+        scene.add(trees1);
+        trees1.position.set(-200, -100, 0);
+        let trees2;
+
+        for (let r = 0; r <= 500; r += 200){
+            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
+                trees2 = trees1.clone()
+                scene.add(trees2);
+                trees2.position.set(r * Math.cos(phi), -100, r * Math.sin(phi));
+            }
+        }
+     
+
     }
 )
+
+var geometry = new THREE.PlaneBufferGeometry(7500, 7500);
+geometry.rotateX(- Math.PI / 2);
+
+var groundMesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({color: "black"}));
+groundMesh.position.y = -10
+scene.add(groundMesh);
+
+// loader.load(
+//     // resource URL
+//     "../tree2/scene.gltf",
+//     function (gltf) {
+//         let trees1 = gltf.scene
+//         scene.add(trees1);
+
+//         trees1.position.set(0, 10, -10);
+
+//     }
+// )
 
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
@@ -71,7 +102,7 @@ loader.load(
     material.emissive.color = 0x008080
 
     var player = new THREE.Mesh(new THREE.SphereGeometry(1), material);
-    player.position.set(0, 0, 0);
+    player.position.set(300, 0, 0);
     player.name = 'player';
     scene.add(player);
     camera.up.set(0, 0, 1)
@@ -79,8 +110,8 @@ loader.load(
     camera.position.set(0, 0, 10);
 
     var controls = new FirstPersonControls(player);
-    controls.movementSpeed = 10;
-    controls.lookSpeed = 0.5;
+    controls.movementSpeed = 100;
+    controls.lookSpeed = 1;
     controls.noFly = true;
     controls.lookVertical = true;
     controls.mouseDragOn = true;
@@ -211,6 +242,9 @@ function onMouseMove(event) {
 function onSpaceDown(event) {
     if (event.keyCode === 32) {
         bloomPass.strength += .03
+    }
+    if (event.keyCode === 17) {
+        controls.enabled = !controls.enabled
     }
 
 }
