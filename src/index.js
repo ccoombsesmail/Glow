@@ -41,13 +41,13 @@ loader.load(
         trees1.position.set(-200, -100, 0);
         let trees2;
 
-        for (let r = 0; r <= 500; r += 200){
-            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI){
-                trees2 = trees1.clone()
-                scene.add(trees2);
-                trees2.position.set(r * Math.cos(phi), -100, r * Math.sin(phi));
-            }
-        }
+        // for (let r = 100; r <= 200; r += 100){
+            // for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
+            //     trees2 = trees1.clone()
+            //     scene.add(trees2);
+            //     trees2.position.set(-300 + 100 * Math.cos(phi), -100, 100 * Math.sin(phi));
+            // }
+        // }
      
 
     }
@@ -56,7 +56,7 @@ loader.load(
 var geometry = new THREE.PlaneBufferGeometry(7500, 7500);
 geometry.rotateX(- Math.PI / 2);
 
-var groundMesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({color: "black"}));
+var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "black"}));
 groundMesh.position.y = -10
 scene.add(groundMesh);
 
@@ -94,6 +94,7 @@ scene.add(groundMesh);
 
     var darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
     var materials = {};
+    var materials2 = {};
 
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
@@ -108,6 +109,9 @@ scene.add(groundMesh);
     camera.up.set(0, 0, 1)
     player.add(camera);
     camera.position.set(0, 0, 10);
+    var light = new THREE.PointLight(0xE74E0D, 100, 100);
+    player.add(light)
+
 
     var controls = new FirstPersonControls(player);
     controls.movementSpeed = 100;
@@ -131,20 +135,30 @@ scene.add(groundMesh);
 
     var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
     var bloomLayer = new THREE.Layers();
+    var bloomLayer2 = new THREE.Layers();
+
     bloomLayer.set(BLOOM_SCENE);
+
     player.layers.enable(BLOOM_SCENE)
 
     var renderScene = new RenderPass(scene, camera);
+
     var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
-    bloomPass.strength = .2;
+    bloomPass.strength = 2;
     bloomPass.radius = 0;
+
+   
 
 
     var bloomComposer = new EffectComposer(renderer);
     bloomComposer.renderToScreen = false;
     bloomComposer.addPass(renderScene);
     bloomComposer.addPass(bloomPass);
+
+
+  
+
 
     var finalPass = new ShaderPass(
         new THREE.ShaderMaterial({
@@ -176,7 +190,6 @@ var render = function () {
 
     // render scene with bloom
     renderBloom(true);
-
     // render the entire scene, then render bloom scene on top
     finalComposer.render();
     // renderer.render(scene, camera);
@@ -192,19 +205,21 @@ function renderBloom(mask) {
         bloomComposer.render();
         scene.traverse(restoreMaterial);
 
-    } else {
+    } 
+    
+    // else {
 
-        camera.layers.set(BLOOM_SCENE);
-        bloomComposer.render();
-        camera.layers.set(ENTIRE_SCENE);
+    //     camera.layers.set(BLOOM_SCENE);
+    //     bloomComposer.render();
+    //     camera.layers.set(ENTIRE_SCENE);
 
-    }
+    // }
 
 }
 
 
 function darkenNonBloomed(obj) {
-
+   
     if (obj.isMesh && bloomLayer.test(obj.layers) === false) {
 
         materials[obj.uuid] = obj.material;
@@ -212,7 +227,10 @@ function darkenNonBloomed(obj) {
 
     }
 
+
+   
 }
+
 
 
 function restoreMaterial(obj) {
@@ -225,6 +243,8 @@ function restoreMaterial(obj) {
     }
 
 }
+
+
 
 
 function onMouseMove(event) {
