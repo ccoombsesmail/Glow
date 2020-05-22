@@ -42,7 +42,7 @@ loader.load(
         let trees2;
 
         for (let r = 0; r <= 500; r += 200){
-            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
+            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI){
                 trees2 = trees1.clone()
                 scene.add(trees2);
                 trees2.position.set(r * Math.cos(phi), -100, r * Math.sin(phi));
