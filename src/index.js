@@ -5,6 +5,10 @@ import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
+
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+
 import {createSkyBox} from './components/skybox'
 import {createSkyBox2} from './components/skybox2'
 import {loadMist} from './components/mist'
@@ -20,6 +24,22 @@ import {initSky} from './components/sky'
     var scene = new THREE.Scene();
 
     // var mistMeshes = loadMist(scene)
+
+var loader = new GLTFLoader();
+loader.setCrossOrigin('anonymous');
+
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/examples/js/libs/draco/');
+loader.setDRACOLoader(dracoLoader);
+
+loader.load(
+    // resource URL
+    "tree2/scene.gltf",
+    function (gltf) {
+        // Add the loaded object to the scene
+        scene.add(gltf.scene);
+    }
+)
 
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
@@ -86,7 +106,7 @@ import {initSky} from './components/sky'
     var renderScene = new RenderPass(scene, camera);
     var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
-    bloomPass.strength = 3.5;
+    bloomPass.strength = .2;
     bloomPass.radius = 0;
 
 
@@ -118,7 +138,7 @@ var render = function () {
     controls.update(.01);
 
     flies.moveFlies()
-    flies.checkCollision(player)
+    flies.checkCollision(player, bloomPass)
 
  
     // composer.render();

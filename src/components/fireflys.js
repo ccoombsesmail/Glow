@@ -11,9 +11,9 @@ export class FireFlies {
         this.moveSpeed = .02
         for (let i = 0; i < 15; i++) {
             let mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x = (Math.random() - 0.5) * 10;
-            mesh.position.y = (Math.random() - 0.5) * 10;
-            mesh.position.z = (Math.random() - 0.5) * 10;
+            mesh.position.x = (Math.random() - 0.5) * 15;
+            mesh.position.y = (Math.random() - 0.5) * 15;
+            mesh.position.z = (Math.random() - 0.5) * 15;
             mesh.layers.enable(1)
             this.scene.add(mesh);
             this.flies.push(mesh)
@@ -34,12 +34,14 @@ export class FireFlies {
 
     }
 
-    checkCollision(player) {
+    checkCollision(player, bloomPass) {
 
         for (let i = 0; i < this.flies.length; i++) {
             if (Utils.distance(this.flies[i], player) < 3) {
                 this.scene.remove(this.flies[i])
                 this.flies.splice(i,1)
+                bloomPass.strength += .5
+
             }
         }
 
