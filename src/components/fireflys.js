@@ -37,14 +37,14 @@ export class FireFlies {
 
     }
 
-    checkCollision(player, bloomPass) {
+    checkCollision(player, bloomPass, light) {
 
         for (let i = 0; i < this.flies.length; i++) {
             if (Utils.distance(this.flies[i], player) < 3) {
                 this.scene.remove(this.flies[i])
                 this.flies.splice(i,1)
                 bloomPass.strength += .3
-
+                light.power += 20
             }
         }
 

@@ -41,9 +41,10 @@ loader.load(
         scene.add(trees1);
         trees1.position.set(0, -10, 0);
         let trees2;
-
+        let delta = Math.PI/3
         for (let r = 500; r <= 1000; r += 500){
-            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
+            delta += Math.PI/3
+            for (let phi = delta; phi <= 2*Math.PI + delta; phi += Math.PI/2){
                 trees2 = trees1.clone()
 
                 scene.add(trees2);
@@ -72,7 +73,7 @@ loader.load(
         let grass2;
         let delta = .1
         for (let r = 80; r <= 500; r += 30) {
-            delta+= 1
+            delta+= .6
             for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (16 + delta)) {
                 grass2 = grass.clone()
 
@@ -136,12 +137,12 @@ scene.add(groundMesh);
     camera.up.set(0, 0, 1)
     player.add(camera);
     camera.position.set(0, 0, 10);
-    var light = new THREE.PointLight(0xE74E0D, 100, 100);
+    var light = new THREE.PointLight(0xE74E0D, 10, 100);
     player.add(light)
 
 
     var controls = new FirstPersonControls(player);
-    controls.movementSpeed = 50;
+    controls.movementSpeed = 90;
     controls.lookSpeed = .7;
     controls.noFly = true;
     controls.lookVertical = true;
@@ -206,8 +207,8 @@ var render = function () {
     requestAnimationFrame(render);
     controls.update(.01);
 
-    flies.moveFlies()
-    flies.checkCollision(player, bloomPass)
+    flies.moveFlies();
+    flies.checkCollision(player, bloomPass, light);
 
  
     // composer.render();
