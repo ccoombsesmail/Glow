@@ -50,7 +50,12 @@ loader.load(
         // }
      
 
-    }
+    },
+    function (xhr) {
+
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+    },
 )
 
 var geometry = new THREE.PlaneBufferGeometry(7500, 7500);
