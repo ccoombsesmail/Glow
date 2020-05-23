@@ -28,9 +28,9 @@ import {initSky} from './components/sky'
 var loader = new GLTFLoader();
 loader.setCrossOrigin('anonymous');
 
-// var dracoLoader = new DRACOLoader();
-// dracoLoader.setDecoderPath('/examples/js/libs/draco/');
-// loader.setDRACOLoader(dracoLoader);
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/examples/js/libs/draco/');
+loader.setDRACOLoader(dracoLoader);
 
 loader.load(
     // resource URL
