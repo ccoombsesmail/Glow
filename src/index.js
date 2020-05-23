@@ -28,26 +28,31 @@ import {initSky} from './components/sky'
 var loader = new GLTFLoader();
 loader.setCrossOrigin('anonymous');
 
-var dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/examples/js/libs/draco/');
-loader.setDRACOLoader(dracoLoader);
+// var dracoLoader = new DRACOLoader();
+// dracoLoader.setDecoderPath('/gltf');
+// loader.setDRACOLoader(dracoLoader);
 
 loader.load(
     // resource URL
-    "../tree2/scene.gltf",
+    "../trees/sakuro/scene.gltf",
     function (gltf) {
         let trees1 = gltf.scene
+        gltf.scene.scale.set(200, 200, 200);
+        // gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
+        // gltf.scene.position.y = 0;				    //Position (y = up+, down-)
+        // gltf.scene.position.z = 0;				    //Position (z = front +, back-)
         scene.add(trees1);
-        trees1.position.set(-200, -100, 0);
+        trees1.position.set(0, -10, 0);
         let trees2;
 
-        // for (let r = 100; r <= 200; r += 100){
-            // for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
-            //     trees2 = trees1.clone()
-            //     scene.add(trees2);
-            //     trees2.position.set(-300 + 100 * Math.cos(phi), -100, 100 * Math.sin(phi));
-            // }
-        // }
+        for (let r = 500; r <= 1000; r += 500){
+            for (let phi = 0; phi <= 2*Math.PI; phi += Math.PI/2){
+                trees2 = trees1.clone()
+
+                scene.add(trees2);
+                trees2.position.set(r * Math.cos(phi), -10, r * Math.sin(phi));
+            }
+        }
      
 
     },
@@ -65,17 +70,6 @@ var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "b
 groundMesh.position.y = -10
 scene.add(groundMesh);
 
-// loader.load(
-//     // resource URL
-//     "../tree2/scene.gltf",
-//     function (gltf) {
-//         let trees1 = gltf.scene
-//         scene.add(trees1);
-
-//         trees1.position.set(0, 10, -10);
-
-//     }
-// )
 
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
@@ -99,7 +93,6 @@ scene.add(groundMesh);
 
     var darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
     var materials = {};
-    var materials2 = {};
 
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
@@ -108,7 +101,7 @@ scene.add(groundMesh);
     material.emissive.color = 0x008080
 
     var player = new THREE.Mesh(new THREE.SphereGeometry(1), material);
-    player.position.set(300, 0, 0);
+    player.position.set(0, 0, 0);
     player.name = 'player';
     scene.add(player);
     camera.up.set(0, 0, 1)
@@ -129,9 +122,7 @@ scene.add(groundMesh);
     var flies = new FireFlies(scene)
 
 
-    var directionalLight = new THREE.DirectionalLight(0xffeedd);
-    directionalLight.position.set(0, 0, 1);
-    scene.add(directionalLight);
+  
 
     var ambient = new THREE.AmbientLight(0x555555);
     scene.add(ambient);

@@ -11,7 +11,7 @@ export class FireFlies {
         this.moveSpeed = .02
         for (let i = 0; i < 15; i++) {
             let mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x = 300 + (Math.random() - 0.5) * 175;
+            mesh.position.x =  (Math.random() - 0.5) * 175;
             mesh.position.y = 40+ (Math.random() - 0.5) * 75;
             mesh.position.z = (Math.random() - 0.5) * 175;
             // var light = new THREE.PointLight(0xE74E0D, 1, 50);
