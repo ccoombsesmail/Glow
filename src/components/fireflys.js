@@ -9,11 +9,11 @@ export class FireFlies {
         this.flies = []
         this.scene = scene
         this.moveSpeed = .02
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 55; i++) {
             let mesh = new THREE.Mesh(geometry, material);
-            mesh.position.x =  (Math.random() - 0.5) * 175;
+            mesh.position.x =  (Math.random() - 0.5) * 475;
             mesh.position.y = 40+ (Math.random() - 0.5) * 75;
-            mesh.position.z = (Math.random() - 0.5) * 175;
+            mesh.position.z = (Math.random() - 0.5) * 475;
             // var light = new THREE.PointLight(0xE74E0D, 1, 50);
             // light.position.set(mesh.position.x, mesh.position.y, mesh.position.z);
             // this.scene.add(light);
@@ -43,7 +43,7 @@ export class FireFlies {
             if (Utils.distance(this.flies[i], player) < 3) {
                 this.scene.remove(this.flies[i])
                 this.flies.splice(i,1)
-                bloomPass.strength += .5
+                bloomPass.strength += .3
 
             }
         }

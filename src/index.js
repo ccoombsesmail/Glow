@@ -28,9 +28,9 @@ import {initMusic} from './audio/audio'
 var loader = new GLTFLoader();
 loader.setCrossOrigin('anonymous');
 
-// var dracoLoader = new DRACOLoader();
-// dracoLoader.setDecoderPath('/gltf');
-// loader.setDRACOLoader(dracoLoader);
+var dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/gltf');
+loader.setDRACOLoader(dracoLoader);
 
 loader.load(
     // resource URL
@@ -60,10 +60,42 @@ loader.load(
     },
 )
 
+
+loader.load(
+    // resource URL
+    "../trees/grass/scene.gltf",
+    function (gltf) {
+        let grass = gltf.scene
+        gltf.scene.scale.set(.2, .2, .2);
+        scene.add(grass);
+        grass.position.set(30, -10, 0);
+        let grass2;
+        let delta = .1
+        for (let r = 80; r <= 500; r += 30) {
+            delta+= 1
+            for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (16 + delta)) {
+                grass2 = grass.clone()
+
+                scene.add(grass2);
+                grass2.position.set(r * Math.cos(phi), -10, r * Math.sin(phi));
+            }
+        }
+
+
+    },
+    function (xhr) {
+
+        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+    },
+)
+
+
 var geometry = new THREE.PlaneBufferGeometry(7500, 7500);
 geometry.rotateX(- Math.PI / 2);
 
-var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: "black"}));
+
+var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black"}));
 groundMesh.position.y = -10
 scene.add(groundMesh);
 
@@ -109,8 +141,8 @@ scene.add(groundMesh);
 
 
     var controls = new FirstPersonControls(player);
-    controls.movementSpeed = 100;
-    controls.lookSpeed = 1;
+    controls.movementSpeed = 50;
+    controls.lookSpeed = .7;
     controls.noFly = true;
     controls.lookVertical = true;
     controls.mouseDragOn = true;
@@ -128,17 +160,16 @@ scene.add(groundMesh);
 
     var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
     var bloomLayer = new THREE.Layers();
-    var bloomLayer2 = new THREE.Layers();
 
     bloomLayer.set(BLOOM_SCENE);
 
-    player.layers.enable(BLOOM_SCENE)
+    player.layers.enable(BLOOM_SCENE);
 
     var renderScene = new RenderPass(scene, camera);
 
     var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
-    bloomPass.strength = 2;
+    bloomPass.strength = .2;
     bloomPass.radius = 0;
 
    
@@ -200,13 +231,6 @@ function renderBloom(mask) {
 
     } 
     
-    // else {
-
-    //     camera.layers.set(BLOOM_SCENE);
-    //     bloomComposer.render();
-    //     camera.layers.set(ENTIRE_SCENE);
-
-    // }
 
 }
 
@@ -219,8 +243,6 @@ function darkenNonBloomed(obj) {
         obj.material = darkMaterial;
 
     }
-
-
    
 }
 
