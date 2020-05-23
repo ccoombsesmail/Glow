@@ -14,7 +14,7 @@ import {createSkyBox2} from './components/skybox2'
 import {loadMist} from './components/mist'
 import {FireFlies} from './components/fireflys'
 import {initSky} from './components/sky'
-
+import {initMusic} from './audio/audio'
 
 
 
@@ -38,9 +38,6 @@ loader.load(
     function (gltf) {
         let trees1 = gltf.scene
         gltf.scene.scale.set(200, 200, 200);
-        // gltf.scene.position.x = 0;				    //Position (x = right+ left-) 
-        // gltf.scene.position.y = 0;				    //Position (y = up+, down-)
-        // gltf.scene.position.z = 0;				    //Position (z = front +, back-)
         scene.add(trees1);
         trees1.position.set(0, -10, 0);
         let trees2;
@@ -72,7 +69,7 @@ scene.add(groundMesh);
 
 
     var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-
+    initMusic(camera)
     initSky(scene)
 
     var renderer = new THREE.WebGLRenderer({ antialias: true });
