@@ -8,7 +8,7 @@ export class FireFlies {
         let material = new THREE.MeshLambertMaterial({ color: 0xE74E0D });
         this.flies = []
         this.scene = scene
-        this.moveSpeed = .02
+        this.moveSpeed = .1
         for (let i = 0; i < 55; i++) {
             let mesh = new THREE.Mesh(geometry, material);
             mesh.position.x =  (Math.random() - 0.5) * 475;
@@ -20,6 +20,8 @@ export class FireFlies {
             mesh.layers.enable(1)
             this.scene.add(mesh);
             this.flies.push(mesh)
+            this.pulseUp = this.pulseUp.bind(this)
+            this.pulseDown = this.pulseDown.bind(this)
         }
     }
 
@@ -43,13 +45,41 @@ export class FireFlies {
             if (Utils.distance(this.flies[i], player) < 3) {
                 this.scene.remove(this.flies[i])
                 this.flies.splice(i,1)
-                bloomPass.strength += .3
-                light.power += 20
+                this.pulseUp(bloomPass, light)
+                // bloomPass.strength += .3
+                // light.power += 20
             }
         }
 
     }
 
+    pulseUp(bloomPass, light) {
+        let i = 0;
+        const pulseInt = setInterval(() => {
+            bloomPass.strength += .02
+            light.power += .44
+            light.distance  += .5
+            i += 1
+            if (i === 46) {
+                clearInterval(pulseInt)
+                this.pulseDown(bloomPass, light)
+            }
 
+        })
+    }
+
+    pulseDown(bloomPass, light) {
+        let i = 46;
+        const pulseInt = setInterval(() => {
+            bloomPass.strength -= .02
+            light.power -= .44
+            light.distance -= .5
+            i -= 1
+            if (i === 14) {
+                clearInterval(pulseInt)
+            }
+
+        })
+    }
 
 }

@@ -6,106 +6,49 @@ import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
 
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
-import {createSkyBox} from './components/skybox'
-import {createSkyBox2} from './components/skybox2'
-import {loadMist} from './components/mist'
+
 import {FireFlies} from './components/fireflys'
 import {initSky} from './components/sky'
 import {initMusic} from './audio/audio'
+import {initModels} from './model_loaders'
+
+
+var scene, geometry, camera, renderer, flies, darkMaterial, materials, player, finalComposer, bloomComposer, bloomLayer, bloomPass, controls, light
+var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
 
 
 
-
-// function init() {
-
-    var scene = new THREE.Scene();
-
-    // var mistMeshes = loadMist(scene)
-
-var loader = new GLTFLoader();
-loader.setCrossOrigin('anonymous');
-
-var dracoLoader = new DRACOLoader();
-dracoLoader.setDecoderPath('/gltf');
-loader.setDRACOLoader(dracoLoader);
-
-loader.load(
-    // resource URL
-    "../trees/sakuro/scene.gltf",
-    function (gltf) {
-        let trees1 = gltf.scene
-        gltf.scene.scale.set(200, 200, 200);
-        scene.add(trees1);
-        trees1.position.set(0, -10, 0);
-        let trees2;
-        let delta = Math.PI/3
-        for (let r = 500; r <= 1000; r += 500){
-            delta += Math.PI/3
-            for (let phi = delta; phi <= 2*Math.PI + delta; phi += Math.PI/2){
-                trees2 = trees1.clone()
-
-                scene.add(trees2);
-                trees2.position.set(r * Math.cos(phi), -10, r * Math.sin(phi));
-            }
-        }
-     
-
-    },
-    function (xhr) {
-
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
-    },
-)
+window.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('btn').addEventListener('click', () => {
+        window.addEventListener('keydown', onSpaceDown)
+        init()
+        render();
+        document.getElementsByClassName('welcome-container')[0].remove()
+    })
+});
 
 
-loader.load(
-    // resource URL
-    "../trees/grass/scene.gltf",
-    function (gltf) {
-        let grass = gltf.scene
-        gltf.scene.scale.set(.2, .2, .2);
-        scene.add(grass);
-        grass.position.set(30, -10, 0);
-        let grass2;
-        let delta = .1
-        for (let r = 80; r <= 500; r += 30) {
-            delta+= .6
-            for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (16 + delta)) {
-                grass2 = grass.clone()
+function init() {
 
-                scene.add(grass2);
-                grass2.position.set(r * Math.cos(phi), -10, r * Math.sin(phi));
-            }
-        }
+     scene = new THREE.Scene();
 
 
-    },
-    function (xhr) {
 
-        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
-    },
-)
+    geometry = new THREE.PlaneBufferGeometry(7500, 7500);
+    geometry.rotateX(- Math.PI / 2);
 
 
-var geometry = new THREE.PlaneBufferGeometry(7500, 7500);
-geometry.rotateX(- Math.PI / 2);
+    var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black"}));
+    groundMesh.position.y = -10
+    scene.add(groundMesh);
 
 
-var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black"}));
-groundMesh.position.y = -10
-scene.add(groundMesh);
-
-
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     initMusic(camera)
     initSky(scene)
-
-    var renderer = new THREE.WebGLRenderer({ antialias: true });
+    initModels(scene)
+    renderer = new THREE.WebGLRenderer({ antialias: true });
     // renderer.setClearColor("#001111");
     // renderer.setClearColor(scene.fog.color);
     renderer.toneMapping = THREE.ReinhardToneMapping;
@@ -121,8 +64,8 @@ scene.add(groundMesh);
         camera.updateProjectionMatrix();
     })
 
-    var darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
-    var materials = {};
+    darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
+    materials = {};
 
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
@@ -130,18 +73,19 @@ scene.add(groundMesh);
     var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
     material.emissive.color = 0x008080
 
-    var player = new THREE.Mesh(new THREE.SphereGeometry(1), material);
-    player.position.set(0, 0, 0);
+    player = new THREE.Mesh(new THREE.SphereGeometry(1), material);
+    player.position.set(150, 30, 0);
     player.name = 'player';
     scene.add(player);
     camera.up.set(0, 0, 1)
     player.add(camera);
     camera.position.set(0, 0, 10);
-    var light = new THREE.PointLight(0xE74E0D, 10, 100);
+
+    light = new THREE.PointLight(0xE74E0D, 2, 10);
     player.add(light)
 
 
-    var controls = new FirstPersonControls(player);
+    controls = new FirstPersonControls(player);
     controls.movementSpeed = 90;
     controls.lookSpeed = .7;
     controls.noFly = true;
@@ -149,18 +93,13 @@ scene.add(groundMesh);
     controls.mouseDragOn = true;
 
 
-    var flies = new FireFlies(scene)
+    flies = new FireFlies(scene)
 
-
-  
 
     var ambient = new THREE.AmbientLight(0x555555);
     scene.add(ambient);
 
-// }
-
-    var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
-    var bloomLayer = new THREE.Layers();
+    bloomLayer = new THREE.Layers();
 
     bloomLayer.set(BLOOM_SCENE);
 
@@ -168,7 +107,7 @@ scene.add(groundMesh);
 
     var renderScene = new RenderPass(scene, camera);
 
-    var bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+    bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
     bloomPass.strength = .2;
     bloomPass.radius = 0;
@@ -176,7 +115,7 @@ scene.add(groundMesh);
    
 
 
-    var bloomComposer = new EffectComposer(renderer);
+    bloomComposer = new EffectComposer(renderer);
     bloomComposer.renderToScreen = false;
     bloomComposer.addPass(renderScene);
     bloomComposer.addPass(bloomPass);
@@ -198,10 +137,11 @@ scene.add(groundMesh);
     );
     finalPass.needsSwap = true;
 
-    var finalComposer = new EffectComposer(renderer);
+    finalComposer = new EffectComposer(renderer);
     finalComposer.addPass(renderScene);
     finalComposer.addPass(finalPass);
 
+}
 
 var render = function () {
     requestAnimationFrame(render);
@@ -286,6 +226,6 @@ function onSpaceDown(event) {
 }
 
 // window.addEventListener('mousemove', onMouseMove)
- window.addEventListener('keydown', onSpaceDown)
-render();
+// window.addEventListener('keydown', onSpaceDown)
 // init()
+// render();
