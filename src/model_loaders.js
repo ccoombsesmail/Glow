@@ -20,7 +20,7 @@ function initModels(scene) {
             trees1.position.set(0, -10, 0);
             let trees2;
             let delta = Math.PI / 3
-            for (let r = 500; r <= 1000; r += 500) {
+            for (let r = 400; r <= 800; r += 400) {
                 delta += Math.PI / 3
                 for (let phi = delta; phi <= 2 * Math.PI + delta; phi += Math.PI / 2) {
                     trees2 = trees1.clone()
@@ -45,14 +45,17 @@ function initModels(scene) {
         "../trees/grass/scene.gltf",
         function (gltf) {
             let grass = gltf.scene
-            gltf.scene.scale.set(.2, .2, .2);
+            gltf.scene.scale.set(.25, .25, .25);
             scene.add(grass);
-            grass.position.set(30, -10, 0);
             let grass2;
-            let delta = .1
-            for (let r = 80; r <= 500; r += 30) {
-                delta += .1 + r / (r + Math.sqrt(405 * r))
-                for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (16 + delta)) {
+            let delta = 10
+            for (let r = 80; r <= 700; r += 30) {
+                // delta += .1 + r / (r + Math.sqrt(4005 * r))
+                
+                    delta += ((r+1)/r)**1.3 - .3
+                
+                console.log(delta)
+                for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (delta)) {
                     grass2 = grass.clone()
 
                     scene.add(grass2);
