@@ -70,10 +70,12 @@ function init() {
     var raycaster = new THREE.Raycaster();
     var mouse = new THREE.Vector2();
 
-    var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
+    var material = new THREE.MeshLambertMaterial({ color: '#6BD4CF' });
+    // var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
     material.emissive.color = 0x008080
 
-    player = new THREE.Mesh(new THREE.SphereGeometry(1), material);
+    player = new THREE.Mesh(new THREE.SphereGeometry(1, 32, 32), material);
+    
     player.position.set(150, 30, 0);
     player.name = 'player';
     scene.add(player);
@@ -149,6 +151,7 @@ var render = function () {
 
     flies.moveFlies();
     flies.checkCollision(player, bloomPass, light);
+    flies.absorbAnimation(player, bloomPass, light)
 
  
     // composer.render();
