@@ -104,7 +104,7 @@ export class FireFlies {
         const pulseInt = setInterval(() => {
             bloomPass.strength += .07
             light.power += .84
-            light.distance  += .5
+            light.distance  += .7
             i += 1
             if (i === 46) {
                 clearInterval(pulseInt)

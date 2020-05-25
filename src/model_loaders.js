@@ -45,11 +45,11 @@ function initModels(scene) {
         "../trees/grass/scene.gltf",
         function (gltf) {
             let grass = gltf.scene
-            gltf.scene.scale.set(.25, .25, .25);
+            gltf.scene.scale.set(.3, .3, .3);
             scene.add(grass);
             let grass2;
             let delta = 10
-            for (let r = 80; r <= 700; r += 30) {
+            for (let r = 80; r <= 700; r += 40) {
                 // delta += .1 + r / (r + Math.sqrt(4005 * r))
                 
                     delta += ((r+1)/r)**1.3 - .3
