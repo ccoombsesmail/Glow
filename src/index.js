@@ -35,7 +35,8 @@ function init() {
 
 
 
-    geometry = new THREE.PlaneBufferGeometry(7500, 7500);
+    geometry = new THREE.PlaneBufferGeometry(30000, 30000);
+    // geometry = new THREE.RingGeometry(0, 750, 64);
     geometry.rotateX(- Math.PI / 2);
 
 

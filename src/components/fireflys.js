@@ -10,10 +10,11 @@ export class FireFlies {
         this.caught = []
         this.scene = scene
         this.moveSpeed = .1
+        this.inner = document.getElementsByClassName('progress-inner')[0]
         for (let i = 0; i < 55; i++) {
             let mesh = new THREE.Mesh(geometry, material);
             mesh.position.x =  (Math.random() - 0.5) * 475;
-            mesh.position.y = 40+ (Math.random() - 0.5) * 75;
+            mesh.position.y = 40 + (Math.random() - 0.5) * 75;
             mesh.position.z = (Math.random() - 0.5) * 475;
             mesh.layers.enable(1)
             this.scene.add(mesh);
@@ -21,6 +22,7 @@ export class FireFlies {
             this.pulseUp = this.pulseUp.bind(this)
             this.pulseDown = this.pulseDown.bind(this)
             this.absorbAnimation = this.absorbAnimation.bind(this)
+            this.addProgress = this.addProgress.bind(this)
         }
     }
 
@@ -31,7 +33,12 @@ export class FireFlies {
             let direction = new THREE.Vector3();
             this.flies[i].getWorldDirection(direction);
             this.flies[i].position.add(direction.multiplyScalar(this.moveSpeed));
-            this.flies[i].rotation.y += (Math.random() * 360 * Math.PI / 180) / 100
+            if (this.flies[i].position.y < 0) {
+                this.flies[i].rotation.y = 30 * Math.PI / 180
+            }else {
+                this.flies[i].rotation.y += (Math.random() * 360 * Math.PI / 180) / 100
+            }
+    
             this.flies[i].rotation.z += (Math.random() * 360 * Math.PI / 180) / 100
             this.flies[i].rotation.x += (Math.random() * 360 * Math.PI / 180) / 100
         }
@@ -82,20 +89,28 @@ export class FireFlies {
                 this.scene.remove(this.caught[i])
                 this.caught.splice(i, 1)
                 this.pulseUp(bloomPass, light)
-                // let outer = document.getElementsByClassName('progress-outer')[0]
-                let inner = document.getElementsByClassName('progress-inner')[0]
-                // let outerStyles = window.getComputedStyle(outer)
-                // let innerStyles = window.getComputedStyle(inner)
-
-                // let totalWidth = Number(outerStyles.width.slice(0, outerStyles.width.length-2))
-                inner.style.width = (Number(inner.style.width.slice(0, inner.style.width.length-1)) + (1/55)*100).toString() + '%'
-                console.log(document.getElementById('progress').style.width)
+                // let inner = document.getElementsByClassName('progress-inner')[0]
+                // inner.style.width = (Number(inner.style.width.slice(0, inner.style.width.length-1)) + (1/55)*100).toString() + '%'
+                this.addProgress()
             } 
 
         // }, 400)
         }
 
         // this.scene.remove(this.flies[i])
+
+    }
+
+    addProgress(){
+        let i = 0
+        const progressInt = setInterval(() => {
+            this.inner.style.width = (Number(this.inner.style.width.slice(0, this.inner.style.width.length - 1)) + (1 / 1375) * 100).toString() + '%'
+            i += 1
+            if (i === 25) {
+                clearInterval(progressInt)
+            }    
+        }, 60)
+
 
     }
 

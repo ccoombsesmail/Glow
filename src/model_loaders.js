@@ -20,7 +20,7 @@ function initModels(scene) {
             trees1.position.set(0, -10, 0);
             let trees2;
             let delta = Math.PI / 3
-            for (let r = 400; r <= 800; r += 400) {
+            for (let r = 350; r <= 700; r += 350) {
                 delta += Math.PI / 3
                 for (let phi = delta; phi <= 2 * Math.PI + delta; phi += Math.PI / 2) {
                     trees2 = trees1.clone()
@@ -49,7 +49,7 @@ function initModels(scene) {
             scene.add(grass);
             let grass2;
             let delta = 10
-            for (let r = 80; r <= 700; r += 40) {
+            for (let r = 80; r <= 750; r += 40) {
                 // delta += .1 + r / (r + Math.sqrt(4005 * r))
                 
                     delta += ((r+1)/r)**1.3 - .3
