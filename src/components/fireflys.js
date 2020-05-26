@@ -49,7 +49,6 @@ export class FireFlies {
 
         for (let i = 0; i < this.flies.length; i++) {
             if (Utils.distance(this.flies[i], player) < 30) {
-                // this.scene.remove(this.flies[i])
                 this.caught.push(this.flies[i])
                 this.flies.splice(i,1)
                 // bloomPass.strength += .3
@@ -89,15 +88,12 @@ export class FireFlies {
                 this.scene.remove(this.caught[i])
                 this.caught.splice(i, 1)
                 this.pulseUp(bloomPass, light)
-                // let inner = document.getElementsByClassName('progress-inner')[0]
-                // inner.style.width = (Number(inner.style.width.slice(0, inner.style.width.length-1)) + (1/55)*100).toString() + '%'
+            
                 this.addProgress()
             } 
 
-        // }, 400)
         }
 
-        // this.scene.remove(this.flies[i])
 
     }
 

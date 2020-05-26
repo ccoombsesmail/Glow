@@ -4,7 +4,7 @@ import { EffectComposer } from 'three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from 'three/examples/jsm/postprocessing/RenderPass.js';
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
+import { FirstPersonControls } from './controls/controls.js';
 
 
 
@@ -35,7 +35,7 @@ function init() {
 
 
 
-    geometry = new THREE.PlaneBufferGeometry(30000, 30000);
+    geometry = new THREE.PlaneBufferGeometry(7500, 7500);
     // geometry = new THREE.RingGeometry(0, 750, 64);
     geometry.rotateX(- Math.PI / 2);
 
