@@ -115,7 +115,7 @@ function init() {
     player.add(light)
 
 
-    controls = new FirstPersonControls(player);
+    controls = new FirstPersonControls(player, document);
     controls.movementSpeed = 90;
     controls.lookSpeed = .7;
     controls.noFly = true;

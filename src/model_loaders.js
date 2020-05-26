@@ -34,7 +34,7 @@ function initModels(scene) {
         },
         function (xhr) {
 
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
         },
     )
@@ -54,7 +54,7 @@ function initModels(scene) {
                 
                     delta += ((r+1)/r)**1.3 - .3
                 
-                console.log(delta)
+                // console.log(delta)
                 for (let phi = 0; phi <= 2 * Math.PI; phi += Math.PI / (delta)) {
                     grass2 = grass.clone()
 
@@ -67,7 +67,7 @@ function initModels(scene) {
         },
         function (xhr) {
 
-            console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+            // console.log((xhr.loaded / xhr.total * 100) + '% loaded');
 
         },
     )
