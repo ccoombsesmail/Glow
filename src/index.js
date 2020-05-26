@@ -20,14 +20,41 @@ var ENTIRE_SCENE = 0, BLOOM_SCENE = 1;
 
 
 window.addEventListener('DOMContentLoaded', (event) => {
-    document.getElementById('btn').addEventListener('click', () => {
-        window.addEventListener('keydown', onSpaceDown)
-        init()
-        render();
-        document.getElementsByClassName('welcome-container')[0].remove()
-    })
+    setTimeout(() => {
+        document.getElementById('title').classList.remove('fade-out')
+        document.getElementById('title').classList.add('fade-in')
+
+    }, 1000) 
+    
+    setTimeout(() => {
+        document.getElementById('title').classList.remove('fade-in')
+        document.getElementById('title').classList.add('fade-out')
+
+    }, 5000)
+
+    setTimeout(() => {
+        document.getElementsByClassName('welcome-container')[0].style.display = 'flex'
+        document.getElementById('title').remove()
+      
+
+    }, 7000)
+
+         document.getElementById('btn').addEventListener('click', () => {
+             init()
+             render();
+             window.addEventListener('keydown', onSpaceDown)
+             document.getElementsByClassName('welcome-container')[0].remove()
+         })
+      
+    
+    // document.getElementById('title').style.opacity = 1
+
 });
 
+
+
+camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+initMusic(camera)
 
 function init() {
 
@@ -45,8 +72,8 @@ function init() {
     scene.add(groundMesh);
 
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    initMusic(camera)
+    // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    // initMusic(camera)
     initSky(scene)
     initModels(scene)
     renderer = new THREE.WebGLRenderer({ antialias: true });

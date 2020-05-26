@@ -14,6 +14,13 @@ function initMusic(camera) {
         music.setVolume(0.5);
         music.play();
 
+        document.getElementById('volume').addEventListener('click', () => {
+            if (music.isPlaying) {
+                music.pause()
+            }else {
+                music.play()
+            }
+        })
     });
 
 
