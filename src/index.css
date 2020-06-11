@@ -2,13 +2,17 @@
 body{
     overflow: hidden;
     background-color: black;
+    /* background: rgb(0,0,0);
+background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 46%, rgba(0,0,0,1) 73%, rgba(0,212,255,1) 88%, rgba(0,212,255,1) 98%); */
+  background: rgb(0,0,0);
+  background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 46%, rgba(0,0,0,1) 73%, rgba(0,160,193,1) 95%, rgba(0,182,219,1) 98%);
 }
 .welcome-container {
     position: absolute;
     margin: auto;
     width: 850px;
     height: 800px;
-    top: calc(50% - 400px);
+    top: calc(50% - 300px);
     left: calc(50% - 350px);
     background-color: black;
     z-index: 9999;
@@ -34,16 +38,22 @@ button {
   margin: 20px;
   color: white;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  animation-name: slideUp;
-  animation-duration: 4s;
+  animation-name: fadeIn;
+  /* animation-timing-function: ease-out; */
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #5100e6, 0 0 40px #1700e6, 0 0 50px #00b8e6, 0 0 60px #00e6c7, 0 0 70px #00e6c7;
+
+  animation-duration: 2s;
 }
 
 p {
     color: white;
     font-size: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-shadow: 0 0 3px #fff, 0 0 4px #fff, 0 0 5px #5100e6, 0 0 6px #1700e6, 0 0 7px #00b8e6, 0 0 8px #00e6c7, 0 0 9px #00e6c7;
+    
     animation-name: slideUp;
-    animation-duration: 4s;
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
 }
 
 
@@ -124,13 +134,25 @@ p {
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;  
+  }
+}
+
+
+
+
 
 
 button {
   text-decoration: none;
   color: white;
-background: rgb(64,126,126);
-background: linear-gradient(90deg, rgba(64,126,126,1) 0%, rgba(0,212,255,1) 55%, rgba(0,212,255,1) 98%);
+  background: rgb(64,126,126);
+  background: linear-gradient(90deg, rgba(64,126,126,1) 0%, rgba(0,212,255,1) 55%, rgba(0,212,255,1) 98%);
   padding: 15px 40px;
   border-radius: 10px;
   border: none;
@@ -138,7 +160,23 @@ background: linear-gradient(90deg, rgba(64,126,126,1) 0%, rgba(0,212,255,1) 55%,
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
+  animation: pulse 3s linear;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+
 }
+
+@keyframes pulse {
+  from {
+    box-shadow: 0px 0px 0px #00d4ff;
+
+  }
+  to {
+      box-shadow: 0px 0px 40px #00d4ff;
+ 
+  }
+}
+
 
 button:hover {
   color: rgba(255, 255, 255, 1);

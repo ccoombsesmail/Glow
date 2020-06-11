@@ -42,6 +42,7 @@ window.addEventListener('DOMContentLoaded', (event) => {
          document.getElementById('btn').addEventListener('click', () => {
              init()
              render();
+             document.querySelector('body').style.background = 'black'
              window.addEventListener('keydown', onSpaceDown)
              document.getElementsByClassName('welcome-container')[0].remove()
          })
