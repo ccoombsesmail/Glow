@@ -11,8 +11,9 @@ background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 46%, rgba(0,
     position: absolute;
     margin: auto;
     width: 850px;
+    max-width: 70vw;
     height: 800px;
-    top: calc(50% - 300px);
+    top: calc(50% - 350px);
     left: calc(50% - 350px);
     background-color: black;
     z-index: 9999;
@@ -26,8 +27,13 @@ canvas {
     overflow: hidden;
 }
 
+.btnWrapper {
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
 button {
-    margin-top: 100px;
     z-index: 99999;
 }
 
@@ -36,6 +42,7 @@ button {
 }
 .line1 {
   margin: 20px;
+  font-size: 60px;
   color: white;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   animation-name: fadeIn;
@@ -49,8 +56,7 @@ p {
     color: white;
     font-size: 20px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    text-shadow: 0 0 3px #fff, 0 0 4px #fff, 0 0 5px #5100e6, 0 0 6px #1700e6, 0 0 7px #00b8e6, 0 0 8px #00e6c7, 0 0 9px #00e6c7;
-    
+    text-shadow: 0 0 2px #fff, 0 0 3px #fff, 0 0 4px #5100e6, 0 0 5px #1700e6, 0 0 6px #00b8e6, 0 0 7px #00e6c7, 0 0 8px #00e6c7;
     animation-name: slideUp;
     animation-duration: 3s;
     animation-timing-function: ease-in-out;
@@ -65,11 +71,11 @@ p {
 	-webkit-border-radius: 25px;
 	border-radius: 25px;
 	padding: 3px;
-    box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
-    bottom: 10px;
-    z-index: 9999;
-    width: 80vw;
-    left: calc(50% - 40vw);
+  box-shadow: inset 0 -1px 1px rgba(255,255,255,0.3);
+  bottom: 10px;
+  z-index: 9999;
+  width: 80vw;
+  left: calc(50% - 40vw);
 }
 
 .progress-outer > span {
@@ -160,28 +166,60 @@ button {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   text-transform: uppercase;
   transition: all 0.2s ease-in-out;
-  animation: pulse 3s linear;
-  animation-direction: alternate;
-  animation-iteration-count: infinite;
+  animation: pulse 3s ease-in-out infinite alternate;
+  -webkit-animation: pulse 3s ease-in-out infinite alternate;
+  -moz-animation: pulse 0s ease-in-out infinite alternate;
+  -o-animation: pulse 3s ease-in-out infinite alternate;
 
 }
 
-@keyframes pulse {
+@-webkit-keyframes pulse {
   from {
-    box-shadow: 0px 0px 0px #00d4ff;
+    box-shadow: 0px 0px 10px #00d4ff;
 
   }
   to {
-      box-shadow: 0px 0px 40px #00d4ff;
+      box-shadow: 0px 0px 60px #00d4ff;
  
   }
 }
 
+@-o-keyframes pulse {
+  from {
+    box-shadow: 0px 0px 10px #00d4ff;
+
+  }
+  to {
+      box-shadow: 0px 0px 60px #00d4ff;
+ 
+  }
+}
+
+@-moz-keyframes pulse {
+  from {
+    box-shadow: 0px 0px 10px #00d4ff;
+
+  }
+  to {
+      box-shadow: 0px 0px 10px #00d4ff;
+ 
+  }
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0px 0px 10px #00d4ff;
+
+  }
+  to {
+      box-shadow: 0px 0px 60px #00d4ff;
+ 
+  }
+}
 
 button:hover {
   color: rgba(255, 255, 255, 1);
   cursor: pointer;
-
   box-shadow: 0px 0px 20px #00d4ff;
 }
 

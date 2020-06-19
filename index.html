@@ -14,43 +14,26 @@
 
 <body>
 <script type="x-shader/x-vertex" id="vertexshader">
-
-			varying vec2 vUv;
-
-			void main() {
-
-				vUv = uv;
-
-				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
-
-			}
-
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+    }
 </script>
 
 <script type="x-shader/x-fragment" id="fragmentshader">
-
     uniform sampler2D baseTexture;
     uniform sampler2D bloomTexture;
-
     varying vec2 vUv;
-
     vec4 getTexture( sampler2D texelToLinearTexture ) {
-
         return mapTexelToLinear( texture2D( texelToLinearTexture , vUv ) );
-
     }
-
     void main() {
-
         gl_FragColor = ( getTexture( baseTexture ) + vec4( 1.0 ) * getTexture( bloomTexture ) );
-
     }
-
 </script>
 
         <script type="application/javascript" src = "./public/bundle.js"></script>
-        <!-- <script src="./index.js"></script> -->
-
         <h1 id = "title" class="fade-out"> Glow </h1>
 
         <div class = "welcome-container">
@@ -58,8 +41,12 @@
             <p class = "line">Collect the fireflies to glow brighter</p>
             <p class = "line">Fly near the fireflies and they will follow you until being absorbed</p>
             <p class = "line">Use the mouse to change directions and hold down the mouse button/WASD to fly</p>
+            <p class = "line">Press CTRL to freeze controls</p>
             <p class = "line">Relax</p>
-            <button id = "btn"> Enter </button>
+            <div class="btnWrapper">
+              <button id = "btn"> Enter </button>
+              <button id = "btn2"> Enter (Low Quality) </button>
+            </div>
         </div>
 
         <div class="progress-outer">

@@ -1,7 +1,7 @@
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
-function initModels(scene) {
+function initModels(scene, quality) {
 
     var loader = new GLTFLoader();
     loader.setCrossOrigin('anonymous');
@@ -20,7 +20,8 @@ function initModels(scene) {
             trees1.position.set(0, -10, 0);
             let trees2;
             let delta = Math.PI / 3
-            for (let r = 350; r <= 700; r += 350) {
+            let rLim = quality === 'low' ? 350 : 700
+            for (let r = 350; r <= rLim; r += 350) {
                 delta += Math.PI / 3
                 for (let phi = delta; phi <= 2 * Math.PI + delta; phi += Math.PI / 2) {
                     trees2 = trees1.clone()
@@ -49,7 +50,8 @@ function initModels(scene) {
             scene.add(grass);
             let grass2;
             let delta = 10
-            for (let r = 80; r <= 750; r += 40) {
+            let rLim = quality === 'low' ? 350 : 750
+            for (let r = 80; r <= rLim ; r += 40) {
                 // delta += .1 + r / (r + Math.sqrt(4005 * r))
                 
                     delta += ((r+1)/r)**1.3 - .3
