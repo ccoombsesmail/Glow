@@ -62,15 +62,11 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-initMusic(camera)
+// camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 
 function init() {
 
     scene = new THREE.Scene();
-
-
-
     geometry = new THREE.PlaneBufferGeometry(7500, 7500);
     // geometry = new THREE.RingGeometry(0, 750, 64);
     geometry.rotateX(- Math.PI / 2);
@@ -81,13 +77,12 @@ function init() {
     scene.add(groundMesh);
 
 
-    // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-    // initMusic(camera)
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+    initMusic(camera)
     initSky(scene)
     initModels(scene)
     renderer = new THREE.WebGLRenderer({ antialias: true });
-    // renderer.setClearColor("#001111");
-    // renderer.setClearColor(scene.fog.color);
+   
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = Math.pow(1, 4.0)
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -160,9 +155,6 @@ function init() {
     bloomComposer.addPass(bloomPass);
 
 
-  
-
-
     var finalPass = new ShaderPass(
         new THREE.ShaderMaterial({
             uniforms: {
@@ -189,9 +181,6 @@ var render = function () {
     flies.moveFlies();
     flies.checkCollision(player, bloomPass, light);
     flies.absorbAnimation(player, bloomPass, light)
-
- 
-    // composer.render();
 
     // render scene with bloom
     renderBloom(true);
@@ -288,8 +277,8 @@ function initLowQual(quality) {
   scene.add(groundMesh);
 
 
-  // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-  // initMusic(camera)
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+  initMusic(camera)
   initSky(scene)
   initModels(scene, quality)
   renderer = new THREE.WebGLRenderer({ antialias: true });
