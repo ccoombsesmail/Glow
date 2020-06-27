@@ -21,8 +21,6 @@ function initMusic(camera) {
             }
         })
     });
-
-
 }
 
 export {initMusic}

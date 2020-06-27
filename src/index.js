@@ -62,7 +62,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 
 
-// camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+initMusic(camera)
 
 function init() {
 
@@ -77,7 +78,6 @@ function init() {
     scene.add(groundMesh);
 
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
     initMusic(camera)
     initSky(scene)
     initModels(scene)
