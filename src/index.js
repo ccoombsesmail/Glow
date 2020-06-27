@@ -64,6 +64,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
 
 camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
 initMusic(camera)
+document.getElementById('volume').click()
+document.getElementById('volume').click()
 
 function init() {
 
