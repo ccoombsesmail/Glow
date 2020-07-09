@@ -12,7 +12,7 @@ background: radial-gradient(circle, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 46%, rgba(0,
     margin: auto;
     width: 850px;
     max-width: 70vw;
-    height: 800px;
+    height: 790px;
     top: calc(50% - 350px);
     left: calc(50% - 350px);
     background-color: black;
@@ -46,9 +46,7 @@ button {
   color: white;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   animation-name: fadeIn;
-  /* animation-timing-function: ease-out; */
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #5100e6, 0 0 40px #1700e6, 0 0 50px #00b8e6, 0 0 60px #00e6c7, 0 0 70px #00e6c7;
-
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #5100e6, 0 0 40px #1700e6, 0 0 50px #00b8e6, 0 0 60px #00e6c7, 0 0 70px #00e6c7;
   animation-duration: 2s;
 }
 
@@ -64,7 +62,7 @@ p {
 
 
 .progress-outer { 
-	height: 15px;  /* Can be anything */
+	height: 15px; 
 	position: absolute;
 	background: #555;
 	-moz-border-radius: 25px;
