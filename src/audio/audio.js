@@ -5,7 +5,7 @@ function initMusic(camera) {
     camera.add(listener);
     let audioLoader = new THREE.AudioLoader();
     audioLoader.setCrossOrigin('anonymous')
-    let music = new THREE.Audio(listener);
+    var music = new THREE.Audio(listener);
     audioLoader.load('/src/audio/song.mp3', (buffer) => {
 
         music.setBuffer(buffer);
