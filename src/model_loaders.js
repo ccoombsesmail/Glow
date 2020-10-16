@@ -3,10 +3,10 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 
 function initModels(scene, quality) {
 
-    var loader = new GLTFLoader();
+    let loader = new GLTFLoader();
     loader.setCrossOrigin('anonymous');
 
-    var dracoLoader = new DRACOLoader();
+    let dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('/gltf');
     loader.setDRACOLoader(dracoLoader);
 

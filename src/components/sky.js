@@ -6,12 +6,12 @@ import { Sky } from 'three/examples/jsm/objects/Sky.js';
 function initSky(scene) {
 
     // Add Sky
-    var sky = new Sky();
+    let sky = new Sky();
     sky.scale.setScalar(450000);
     scene.add(sky);
 
     // Add Sun Helper
-    var sunSphere = new THREE.Mesh(
+    let sunSphere = new THREE.Mesh(
         new THREE.SphereBufferGeometry(20000, 16, 8),
         new THREE.MeshBasicMaterial({ color: 0xffffff })
     );
@@ -22,7 +22,7 @@ function initSky(scene) {
     // var helper = new THREE.GridHelper(10000, 2, 0xffffff, 0xffffff);
     // scene.add(helper);
 
-    var effectController = {
+    let effectController = {
         turbidity: 10,
         rayleigh: 2,
         mieCoefficient: 0.005,
@@ -33,17 +33,17 @@ function initSky(scene) {
         sun: ! true
     };
 
-    var distance = 400000;
+    let distance = 400000;
 
-    var uniforms = sky.material.uniforms;
+    let uniforms = sky.material.uniforms;
     uniforms["turbidity"].value = effectController.turbidity;
     uniforms["rayleigh"].value = effectController.rayleigh;
     uniforms["mieCoefficient"].value = effectController.mieCoefficient;
     uniforms["mieDirectionalG"].value = effectController.mieDirectionalG;
     uniforms["luminance"].value = effectController.luminance;
 
-    var theta = Math.PI * (effectController.inclination - 0.5);
-    var phi = 2 * Math.PI * (effectController.azimuth - 0.5);
+    let theta = Math.PI * (effectController.inclination - 0.5);
+    let phi = 2 * Math.PI * (effectController.azimuth - 0.5);
 
 
     sunSphere.position.x = distance * Math.cos(phi);
@@ -60,4 +60,4 @@ function initSky(scene) {
 
 
 
-export {initSky}
+export { initSky }

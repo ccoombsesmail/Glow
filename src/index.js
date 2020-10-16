@@ -8,10 +8,10 @@ import { FirstPersonControls } from './controls/controls.js';
 
 
 
-import {FireFlies} from './components/fireflys'
-import {initSky} from './components/sky'
-import {initMusic} from './audio/audio'
-import {initModels} from './model_loaders'
+import { FireFlies } from './components/fireflys'
+import { initSky } from './components/sky'
+import { initMusic } from './audio/audio'
+import { initModels } from './model_loaders'
 
 
 var scene, geometry, camera, renderer, flies, darkMaterial, materials, player, finalComposer, bloomComposer, bloomLayer, bloomPass, controls, light
@@ -23,20 +23,16 @@ window.addEventListener('DOMContentLoaded', (event) => {
     setTimeout(() => {
         document.getElementById('title').classList.remove('fade-out')
         document.getElementById('title').classList.add('fade-in')
-
     }, 1000) 
     
     setTimeout(() => {
         document.getElementById('title').classList.remove('fade-in')
         document.getElementById('title').classList.add('fade-out')
-
     }, 5000)
 
     setTimeout(() => {
         document.getElementsByClassName('welcome-container')[0].style.display = 'flex'
         document.getElementById('title').remove()
-      
-
     }, 7000)
 
     document.getElementById('btn').addEventListener('click', () => {
@@ -47,13 +43,13 @@ window.addEventListener('DOMContentLoaded', (event) => {
         document.getElementsByClassName('welcome-container')[0].remove()
     })
 
-  document.getElementById('btn2').addEventListener('click', () => {
-    initLowQual('low')
-    render();
-    document.querySelector('body').style.background = 'black'
-    window.addEventListener('keydown', onSpaceDown)
-    document.getElementsByClassName('welcome-container')[0].remove()
-  })
+    document.getElementById('btn2').addEventListener('click', () => {
+        initLowQual('low')
+        render();
+        document.querySelector('body').style.background = 'black'
+        window.addEventListener('keydown', onSpaceDown)
+        document.getElementsByClassName('welcome-container')[0].remove()
+    })
       
     
     // document.getElementById('title').style.opacity = 1
@@ -68,14 +64,11 @@ document.getElementById('volume').click()
 document.getElementById('volume').click()
 
 function init() {
-
     scene = new THREE.Scene();
     geometry = new THREE.PlaneBufferGeometry(7500, 7500);
-    // geometry = new THREE.RingGeometry(0, 750, 64);
     geometry.rotateX(- Math.PI / 2);
 
-
-    var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black"}));
+    let groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black"}));
     groundMesh.position.y = -10
     scene.add(groundMesh);
 
@@ -101,10 +94,8 @@ function init() {
     darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
     materials = {};
 
-    var raycaster = new THREE.Raycaster();
-    var mouse = new THREE.Vector2();
 
-    var material = new THREE.MeshLambertMaterial({ color: '#6BD4CF' });
+    let material = new THREE.MeshLambertMaterial({ color: '#6BD4CF' });
     // var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
     material.emissive.color = 0x008080
 
@@ -132,7 +123,7 @@ function init() {
     flies = new FireFlies(scene)
 
 
-    var ambient = new THREE.AmbientLight(0x555555);
+    let ambient = new THREE.AmbientLight(0x555555);
     scene.add(ambient);
 
     bloomLayer = new THREE.Layers();
@@ -141,7 +132,7 @@ function init() {
 
     player.layers.enable(BLOOM_SCENE);
 
-    var renderScene = new RenderPass(scene, camera);
+    let renderScene = new RenderPass(scene, camera);
 
     bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
     bloomPass.threshold = 0;
@@ -157,7 +148,7 @@ function init() {
     bloomComposer.addPass(bloomPass);
 
 
-    var finalPass = new ShaderPass(
+    let finalPass = new ShaderPass(
         new THREE.ShaderMaterial({
             uniforms: {
                 baseTexture: { value: null },
@@ -194,41 +185,28 @@ var render = function () {
 
 
 function renderBloom(mask) {
-
     if (mask === true) {
-
         scene.traverse(darkenNonBloomed);
         bloomComposer.render();
         scene.traverse(restoreMaterial);
-
     } 
-    
-
 }
 
 
 function darkenNonBloomed(obj) {
-   
     if (obj.isMesh && bloomLayer.test(obj.layers) === false) {
-
         materials[obj.uuid] = obj.material;
         obj.material = darkMaterial;
-
     }
-   
 }
 
 
 
 function restoreMaterial(obj) {
-
     if (materials[obj.uuid]) {
-
         obj.material = materials[obj.uuid];
         delete materials[obj.uuid];
-
     }
-
 }
 
 
@@ -236,14 +214,9 @@ function restoreMaterial(obj) {
 
 function onMouseMove(event) {
     event.preventDefault();
-
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
     raycaster.setFromCamera(mouse, camera);
-
-
-
 }
 
 function onSpaceDown(event) {
@@ -256,25 +229,18 @@ function onSpaceDown(event) {
 
 }
 
-// window.addEventListener('mousemove', onMouseMove)
-// window.addEventListener('keydown', onSpaceDown)
-// init()
-// render();
 
 
 
 function initLowQual(quality) {
 
   scene = new THREE.Scene();
-
-
-
   geometry = new THREE.PlaneBufferGeometry(7500, 7500);
   // geometry = new THREE.RingGeometry(0, 750, 64);
   geometry.rotateX(- Math.PI / 2);
 
 
-  var groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black" }));
+  let groundMesh = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({ color: "black" }));
   groundMesh.position.y = -10
   scene.add(groundMesh);
 
@@ -291,8 +257,6 @@ function initLowQual(quality) {
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-
-
   window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -302,10 +266,8 @@ function initLowQual(quality) {
   darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
   materials = {};
 
-  var raycaster = new THREE.Raycaster();
-  var mouse = new THREE.Vector2();
 
-  var material = new THREE.MeshLambertMaterial({ color: '#6BD4CF' });
+  let material = new THREE.MeshLambertMaterial({ color: '#6BD4CF' });
   // var material = new THREE.MeshLambertMaterial({ color: 0xF7F7F7 });
   material.emissive.color = 0x008080
 
@@ -333,7 +295,7 @@ function initLowQual(quality) {
   flies = new FireFlies(scene)
 
 
-  var ambient = new THREE.AmbientLight(0x555555);
+  let ambient = new THREE.AmbientLight(0x555555);
   scene.add(ambient);
 
   bloomLayer = new THREE.Layers();
@@ -342,7 +304,7 @@ function initLowQual(quality) {
 
   player.layers.enable(BLOOM_SCENE);
 
-  var renderScene = new RenderPass(scene, camera);
+  let renderScene = new RenderPass(scene, camera);
 
   bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
   bloomPass.threshold = 0;
@@ -361,7 +323,7 @@ function initLowQual(quality) {
 
 
 
-  var finalPass = new ShaderPass(
+  let finalPass = new ShaderPass(
     new THREE.ShaderMaterial({
       uniforms: {
         baseTexture: { value: null },

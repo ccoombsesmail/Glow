@@ -64,18 +64,6 @@ export class FireFlies {
         let playerDir = new THREE.Vector3()
         player.getWorldDirection(playerDir)
         for (let i = 0; i < this.caught.length; i++) {
-            // let flyDir = new THREE.Vector3()
-            // this.caught[i].getWorldDirection(flyDir)
-            // // console.log(flyDir)
-            // flyDir.lerpVectors(flyDir, playerDir)
-            // console.log(flyDir)
-            // this.caught[i].rotation.y += (Math.random() - .5)
-            // this.caught[i].rotation.z += (Math.random() - .5) 
-            // this.caught[i].rotation.x += (Math.random() - .5) 
-            // let direction = new THREE.Vector3();
-            // this.caught[i].getWorldDirection(direction);
-            // this.caught[i].position.add(direction.multiplyScalar(.2));
-            // setTimeout( () => {
 
             this.caught[i].lookAt(player.position.x, player.position.y, player.position.z)
             this.caught[i].rotation.y += .2
