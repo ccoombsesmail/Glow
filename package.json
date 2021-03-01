@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.116.1",
+    "three": "^0.125.0",
     "three-gltf-loader": "^1.111.0"
   },
   "devDependencies": {
